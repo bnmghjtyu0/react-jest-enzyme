@@ -25,6 +25,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "check-prop-types": "^1.1.2",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.9.1",
     "jest": "^23.6.0",
