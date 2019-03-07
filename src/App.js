@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Button from './Button/Button';
+import Select from './Select/Select';
 import Congrats from './Congrats/Congrats';
 import GuessedWords from './GuessedWords/GuessedWords';
 class App extends Component {
@@ -13,6 +14,7 @@ class App extends Component {
     render() {
         return (
             <div className="App">
+                <Select />
                 <Button onClose={this.handleClose}>123</Button>
                 <Congrats success={true} />
                 <GuessedWords

@@ -26,6 +26,16 @@ describe('select', () => {
         w.simulate('change', { target: { value: "two" } })
         expect(w.find('option').at(1).props().value).toBe("two")
     })
+    test('select onChange ', () => {
+        const wrapper = setup()
+        const handleChangeSpy = sinon.spy();
+        const w = findByTestAttr(wrapper, 'component-select')
+        w.simulate('change', { target: { value: "two" } })
+        setTimeout(() => {
+            expect(handleChangeSpy.calledOnce).toBe(true);
+        }, 1000)
+
+    })
 })
 ```
 ### Select.js
@@ -40,9 +50,12 @@ class Select extends Component {
     constructor(props) {
         super(props)
     }
+    handleChange = (e) => {
+        console.log(e.target.value)
+    }
     render() {
         return (
-            <select data-test="component-select">
+            <select data-test="component-select" onChange={e => this.handleChange(e)}>
                 <option value="one">One</option>
                 <option value="two">Two</option>
                 <option value="three">Three</option>

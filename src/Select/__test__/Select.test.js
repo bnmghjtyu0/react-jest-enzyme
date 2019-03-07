@@ -19,4 +19,14 @@ describe('select', () => {
         w.simulate('change', { target: { value: "two" } })
         expect(w.find('option').at(1).props().value).toBe("two")
     })
+    test('select onChange ', () => {
+        const wrapper = setup()
+        const handleChangeSpy = sinon.spy();
+        const w = findByTestAttr(wrapper, 'component-select')
+        w.simulate('change', { target: { value: "two" } })
+        setTimeout(() => {
+            expect(handleChangeSpy.calledOnce).toBe(true);
+        }, 1000)
+
+    })
 })
