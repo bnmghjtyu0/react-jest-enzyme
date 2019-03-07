@@ -4,7 +4,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-class Button extends Component {
+class Select extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -13,43 +13,22 @@ class Button extends Component {
         }
 
     }
-    cc() {
-        var ul = []
-        var li = []
-        if (this.state.cs > 0) {
-            li.push(<li data-test="component-li" key={0}>123</li>)
-            ul.push(<ul key={0}>{li}</ul>)
-        } else {
-            li.push(<li data-test="component-li" key={0}>444</li>)
-            ul.push(<ul key={0}>{li}</ul>)
-        }
-        return ul
-    }
-
-    hh = () => {
-        if (this.state.kk > 0) {
-            console.log('kk')
-        } else {
-            console.log('hh')
-        }
-    }
-    mm = (e) => {
-        e.preventDefault()
+    handleChange = () => {
+        console.log(123123)
     }
 
     render() {
         return (
             <div>
-                <button data-test="component-button" onClick={this.props.onClose}>取消</button>
-                <button data-test="hh-button" onClick={this.hh}>hh</button>
-                <button data-test="mm-button" onClick={e => this.mm(e)}>hh</button>
-                {this.cc()}
+                <select data-test="component-select" onChange={this.handleChange}>
+                    <option value="3">123</option>
+                </select>
             </div>
         )
     }
 }
 
-export default Button
+export default Select
 ```
 
 ### 執行測試
