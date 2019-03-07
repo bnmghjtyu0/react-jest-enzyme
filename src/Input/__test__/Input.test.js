@@ -20,4 +20,5 @@ const setup = (props = {}) => {
 
 setup()
 
+
 // error  TypeError: ShallowWrapper::dive() can not be called on Host Components

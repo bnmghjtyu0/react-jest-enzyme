@@ -7,10 +7,8 @@ import PropTypes from 'prop-types'
   * @returns {JSX.Element} - Rendered component (or null if `success` prop)
   */
 
-const Congrats = (props) => {
+const Input = (props) => {
     return <div/>
 }
-Congrats.propTypes = {
-    success: PropTypes.bool.isRequired,
-}
-export default Congrats;
+
+export default Input;
