@@ -1,10 +1,3 @@
-## 測試 SnapShot
-
-### SnapShot.test.js
-
-```js
-// SnapShot.test.js
-
 import React from 'react'
 import { shallow, mount } from "enzyme";
 import { findByTestAttr, checkProps } from '../../../test/testUtils';
@@ -24,35 +17,3 @@ describe('props function', () => {
         expect(wrapper).toMatchSnapshot();
     })
 })
-
-```
-### SnapShot.js
-
-```js
-
-// SnapShot.js
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-
-class SnapShot extends Component {
-    constructor(props) {
-        super(props)
-    }
-    render() {
-        return (
-            <div>
-                <h1>title</h1>
-                <p>123</p>
-            </div>
-        )
-    }
-}
-
-export default SnapShot
-```
-
-### 執行測試
-
-```
-npm run test:coverage
-```
