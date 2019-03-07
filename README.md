@@ -51,3 +51,9 @@ class Button extends Component {
 
 export default Button
 ```
+
+### 執行測試
+
+```
+npm run test:coverage
+```
