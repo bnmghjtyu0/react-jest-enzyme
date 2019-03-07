@@ -1,7 +1,19 @@
 ## 測試 Button
 
 ```js
-cc() {
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+
+class Button extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            kk: 0,
+            cs: -1
+        }
+
+    }
+    cc() {
         var ul = []
         var li = []
         if (this.state.cs > 0) {
@@ -24,6 +36,7 @@ cc() {
     mm = (e) => {
         e.preventDefault()
     }
+
     render() {
         return (
             <div>
@@ -34,4 +47,7 @@ cc() {
             </div>
         )
     }
+}
+
+export default Button
 ```
