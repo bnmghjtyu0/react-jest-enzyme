@@ -15,7 +15,8 @@ const setup = (props = {}) => {
 describe('select', () => {
     test('select, ', () => {
         const wrapper = setup()
-        wrapper.simulate('change', { target: { value: "two" } })
-        expect(wrapper.find('option').at(1).props().value).toBe("two")
+        const w = findByTestAttr(wrapper, 'component-select')
+        w.simulate('change', { target: { value: "two" } })
+        expect(w.find('option').at(1).props().value).toBe("two")
     })
 })

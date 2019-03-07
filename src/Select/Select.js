@@ -4,15 +4,10 @@ import PropTypes from 'prop-types'
 class Select extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            kk: 0,
-            cs: -1
-        }
-
     }
     render() {
         return (
-            <select>
+            <select data-test="component-select">
                 <option value="one">One</option>
                 <option value="two">Two</option>
                 <option value="three">Three</option>
