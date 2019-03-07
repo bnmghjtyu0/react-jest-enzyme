@@ -13,17 +13,13 @@ class Select extends Component {
         }
 
     }
-    handleChange = () => {
-        console.log(123123)
-    }
-
     render() {
         return (
-            <div>
-                <select data-test="component-select" onChange={this.handleChange}>
-                    <option value="3">123</option>
-                </select>
-            </div>
+            <select>
+                <option value="one">One</option>
+                <option value="two">Two</option>
+                <option value="three">Three</option>
+            </select>
         )
     }
 }
