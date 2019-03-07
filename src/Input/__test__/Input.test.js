@@ -14,7 +14,7 @@ import Input from '../Input'
 */
 
 const setup = (props = {}) => {
-    const wrapper = shallow(<Input />).dive()
+    const wrapper = shallow(<Input />)
     console.log(wrapper.debug())
 }
 
