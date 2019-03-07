@@ -11,15 +11,11 @@ const setup = (props = {}) => {
     return shallow(<Select {...setupProps} />)
 }
 
-describe('props function', () => {
-    test('goPrev-button if totalPage <= 10, ', () => {
+
+describe('select', () => {
+    test('select, ', () => {
         const wrapper = setup()
-        wrapper.setState()
-        const spy = sinon.spy();
-        const w = findByTestAttr(wrapper, 'component-select')
-        w.simulate('change', { value: '3' });
-        setTimeout(() => {
-            expect(spy.calledOnce).toBe(true);
-        }, 1000)
+        wrapper.simulate('change', { target: { value: "two" } })
+        expect(wrapper.find('option').at(1).props().value).toBe("two")
     })
 })
