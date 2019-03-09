@@ -1,28 +1,17 @@
 import React, { Component } from 'react';
+import SoundPlayerConsumer from './ES6-Class-Mocks/sound-player-consumer'
+import SoundPlayer from './ES6-Class-Mocks/sound-player'
 import './App.css';
-import Button from './Button/Button';
-import Congrats from './Congrats/Congrats';
-import GuessedWords from './GuessedWords/GuessedWords';
 class App extends Component {
     constructor(props) {
         super(props)
     }
-    handleClose = () => {
-        console.log(123)
-    }
     render() {
         return (
             <div className="App">
-                <Button onClose={this.handleClose}>123</Button>
-                <Congrats success={true} />
-                <GuessedWords
-                    guessedWords={
-                        [{ guessedWord: 'train', letterMatchCount: 3 }]
-                    }
-                />
+                <p>123</p>
             </div>
         );
     }
 }
-
 export default App;
