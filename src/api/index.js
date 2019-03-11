@@ -3,5 +3,4 @@ const fetchArticles = event => {
         `https://gank.io/api/random/data/福利/${event}`
     ).then(response => response.json())
 }
-
 export default fetchArticles
