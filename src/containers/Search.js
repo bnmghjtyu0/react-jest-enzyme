@@ -1,6 +1,6 @@
 import React from "react";
 import Search from "../components/Search";
-import fetchArticles from "../services/ajax.js"
+import fetchArticles from "../api/"
 
 class SearchContainer extends React.Component {
     state = {
