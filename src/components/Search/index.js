@@ -18,7 +18,7 @@ class Search extends React.Component {
         return (
             <div>
                 <h1>The Guardian Search App</h1>
-                <form>
+                <form onSubmit={this.handleSubmit}>
                     <input
                         type="text"
                         value={this.state.value}
