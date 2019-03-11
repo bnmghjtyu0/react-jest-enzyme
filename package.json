@@ -1,39 +1,39 @@
 {
-  "name": "demo-jest",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "ajv": "^6.9.2",
-    "axios": "^0.18.0",
-    "moxios": "^0.4.0",
-    "react": "^16.8.3",
-    "react-dom": "^16.8.3",
-    "react-redux": "^6.0.1",
-    "react-scripts": "2.1.5",
-    "redux": "^4.0.1",
-    "sinon": "^7.2.7"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "test:coverage": "react-scripts test --coverage",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
-  "devDependencies": {
-    "check-prop-types": "^1.1.2",
-    "enzyme": "^3.9.0",
-    "enzyme-adapter-react-16": "^1.9.1",
-    "jest": "^23.6.0",
-    "jest-enzyme": "^7.0.1"
-  }
+    "name": "demo-jest",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "ajv": "^6.9.2",
+        "axios": "^0.18.0",
+        "moxios": "^0.4.0",
+        "react": "^16.8.3",
+        "react-dom": "^16.8.3",
+        "react-redux": "^6.0.1",
+        "react-scripts": "2.1.5",
+        "redux": "^4.0.1",
+        "sinon": "^7.2.7"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test --env=jsdom",
+        "test:coverage": "react-scripts test --coverage",
+        "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": [
+        ">0.2%",
+        "not dead",
+        "not ie <= 11",
+        "not op_mini all"
+    ],
+    "devDependencies": {
+        "check-prop-types": "^1.1.2",
+        "enzyme": "^3.9.0",
+        "enzyme-adapter-react-16": "^1.9.1",
+        "jest": "^23.6.0",
+        "jest-enzyme": "^7.0.1"
+    }
 }

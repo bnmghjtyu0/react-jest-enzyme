@@ -5,6 +5,7 @@ class Button extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            counter: 0,
             kk: 0,
             cs: -1
         }
@@ -33,14 +34,22 @@ class Button extends Component {
     mm = (e) => {
         e.preventDefault()
     }
-
+    increment = () => {
+        let { counter } = this.state
+        counter += 1
+        this.setState({
+            counter
+        })
+    }
     render() {
         return (
             <div>
                 <button data-test="component-button" onClick={this.props.onClose}>取消</button>
                 <button data-test="hh-button" onClick={this.hh}>hh</button>
                 <button data-test="mm-button" onClick={e => this.mm(e)}>hh</button>
+                <button data-test="increment-button" onClick={this.increment}>Increment</button>
                 {this.cc()}
+                {this.state.counter}
             </div>
         )
     }

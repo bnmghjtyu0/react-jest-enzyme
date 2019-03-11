@@ -10,7 +10,27 @@ const setup = (props = {}) => {
     const setupProps = { ...defaultProps, ...props }
     return shallow(<Button {...setupProps} />)
 }
+describe('increment function', () => {
+    test('increment-button', () => {
+        const wrapper = shallow(<Button name="app" />)
+        // console.log(wrapper.props())
+        // console.log(wrapper.state())
+        // console.log(wrapper.instance().props)
+        // >>  {name:'app'}
+        expect(wrapper.instance().props.name).toBe('app')
+    })
+    test('按鈕更新', () => {
+        const wrapper = mount(<Button />)
+        const button = findByTestAttr(wrapper, 'increment-button')
+        // console.log(w.props())
+        // >> onClick: [Function]
+        button.simulate('click')
+        // console.log(wrapper.state())
+        // >> {counter:1}
+        expect(wrapper.state().counter).toEqual(1)
 
+    })
+})
 describe('props function', () => {
     test('onClose', () => {
         const wrapper = setup()
@@ -81,4 +101,6 @@ describe('cc function', () => {
         }, 1000)
 
     })
+
+
 })

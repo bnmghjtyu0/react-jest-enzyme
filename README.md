@@ -15,7 +15,27 @@ const setup = (props = {}) => {
     const setupProps = { ...defaultProps, ...props }
     return shallow(<Button {...setupProps} />)
 }
+describe('increment function', () => {
+    test('increment-button', () => {
+        const wrapper = shallow(<Button name="app" />)
+        // console.log(wrapper.props())
+        // console.log(wrapper.state())
+        // console.log(wrapper.instance().props)
+        // >>  {name:'app'}
+        expect(wrapper.instance().props.name).toBe('app')
+    })
+    test('按鈕更新', () => {
+        const wrapper = mount(<Button />)
+        const button = findByTestAttr(wrapper, 'increment-button')
+        // console.log(w.props())
+        // >> onClick: [Function]
+        button.simulate('click')
+        // console.log(wrapper.state())
+        // >> {counter:1}
+        expect(wrapper.state().counter).toEqual(1)
 
+    })
+})
 describe('props function', () => {
     test('onClose', () => {
         const wrapper = setup()
@@ -84,7 +104,6 @@ describe('cc function', () => {
         setTimeout(() => {
             expect(w.length).toBe(1)
         }, 1000)
-
     })
 })
 ```
@@ -92,7 +111,6 @@ describe('cc function', () => {
 
 ```js
 // Button.js
-
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
@@ -100,9 +118,11 @@ class Button extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            counter: 0,
             kk: 0,
             cs: -1
         }
+
     }
     cc() {
         var ul = []
@@ -127,14 +147,22 @@ class Button extends Component {
     mm = (e) => {
         e.preventDefault()
     }
-
+    increment = () => {
+        let { counter } = this.state
+        counter += 1
+        this.setState({
+            counter
+        })
+    }
     render() {
         return (
             <div>
                 <button data-test="component-button" onClick={this.props.onClose}>取消</button>
                 <button data-test="hh-button" onClick={this.hh}>hh</button>
                 <button data-test="mm-button" onClick={e => this.mm(e)}>hh</button>
+                <button data-test="increment-button" onClick={this.increment}>Increment</button>
                 {this.cc()}
+                {this.state.counter}
             </div>
         )
     }
@@ -148,3 +176,8 @@ export default Button
 ```
 npm run test:coverage
 ```
+
+
+### Reference
+
+- [Testing React Components with Enzyme and Jest](https://www.youtube.com/watch?v=u5XTnNBotqs)
