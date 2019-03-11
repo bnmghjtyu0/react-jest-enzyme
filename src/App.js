@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
-import './App.css';
-class App extends Component {
-    render() {
-        return (
-            <div className="App"> </div>
-        );
-    }
-}
+import SearchContainer from "./containers/Search"
 
+const App = () => {
+    return <SearchContainer />
+}
 export default App;
