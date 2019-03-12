@@ -1,3 +1,21 @@
+## sinon.stub
+
+```js
+    test("方法一: 使用 sinon.stub 不執行原本的程式碼", async () => {
+        const promise = Promise.resolve();
+        // sinon.stub = 不執行原本的程式碼
+        sinon.stub(global, 'fetch').callsFake(promise)
+        const wrapper = mount(<SearchContainer />)
+        return promise.then(() => {
+            expect(wrapper.state()).toHaveProperty('articles', []);
+            wrapper.update();
+        }).then(() => {
+            expect(wrapper.state().articles).toHaveLength(0)
+        });
+    })
+```
+
+
 ## 參考文章
 https://blog.bitsrc.io/how-to-test-react-components-using-jest-and-enzyme-fab851a43875
 
