@@ -1,16 +1,22 @@
 import React from "react";
 import Search from "../components/Search";
-import fetchArticles from "../api/"
+import _getParkingApi from "../api/"
 
 class SearchContainer extends React.Component {
-    state = {
-        articles: []
+    constructor(props) {
+        super(props)
+        this.state = {
+            articles: []
+        }
     }
-    performSearch = event => {
-        return fetchArticles(event).then(data => {
-            this.setState({ articles: data.results })
-        })
+    componentWillMount() {
+        this.performSearch()
     }
+    performSearch = async (event) => {
+        const res = await _getParkingApi(event);
+        this.setState({ articles: res.data.results })
+    }
+
     render() {
         return (
             <Search

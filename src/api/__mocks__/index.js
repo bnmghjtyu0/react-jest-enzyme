@@ -1,13 +1,16 @@
 const range = n => [...Array(n).keys()];
 
-const fetchArticles = () => {
+
+const _getParkingApi = () => {
     return Promise.resolve({
         response: {
-            results: range(10).map(i => ({
-                url: `https://abc${i}.com`,
-                who: `Some User ${i}`
-            }))
+            data: {
+                results: range(10).map(i => ({
+                    url: `https://abc${i}.com`,
+                    who: `Some User ${i}`
+                }))
+            }
         }
     })
 }
-export default fetchArticles
+export default _getParkingApi
