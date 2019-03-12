@@ -34,6 +34,8 @@
         "enzyme": "^3.9.0",
         "enzyme-adapter-react-16": "^1.9.1",
         "jest": "^23.6.0",
-        "jest-enzyme": "^7.0.1"
+        "jest-enzyme": "^7.0.1",
+        "jest-puppeteer": "^4.0.0",
+        "puppeteer": "^1.13.0"
     }
 }
