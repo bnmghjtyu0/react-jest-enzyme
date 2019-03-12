@@ -10,50 +10,17 @@ const defaultProps = {}
 
 const setup = (props = {}) => {
     const setupProps = { ...defaultProps, ...props }
-    return shallow(<SearchContainer {...setupProps} />)
+    return shallow(<SearchResults {...setupProps} />)
 }
-let mockBlogPosts
 
-beforeEach(() => {
-    // Before each test, we reset mockBlogPots, and mock fetch globally
-    // to return a list of blog posts.
+jest.mock("../api/")
 
-    mockBlogPosts = [
-        {
-            id: 1,
-            title: 'First post',
-        },
-        {
-            id: 2,
-            title: 'Second post',
-        },
-        {
-            id: 3,
-            title: 'Third post',
-        },
-    ]
+describe("Search container", () => {
+    test("should update articles state", async () => {
+        const wrapper = mount(<SearchContainer />)
+        expect(wrapper.state().articles).toEqual([])
+        const res = await wrapper.instance().performSearch()
+        console.log(wrapper.state().articels)
+    })
 
-    global.fetch = jest.fn(async () => ({
-        ok: true,
-        status: 200,
-        json: async () => ({
-            data: mockBlogPosts,
-        }),
-    }))
-
-    /**
-     * Wrapping our function in jest.fn() turns it into an actual mock
-     * function, which makes it possible to do assertions on it being
-     * called with the right URL and so on. We do a pretty dumb
-     * mock of it here, meaning that it could be called with the
-     * wrong URL and still return the right result in our tests.
-     *
-     * Something worth thinking about when you write your own tests.
-     */
-})
-
-test('fetchBlogPosts fetches blog posts', async () => {
-    const wrapper = mount(<SearchContainer />)
-    const res = await wrapper.instance().fetchBlogPosts()
-    expect(res.length).toEqual(mockBlogPosts.length)
 })
