@@ -5,35 +5,11 @@ class Button extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            counter: 0,
-            kk: 0,
-            cs: -1
+            counter: 0
         }
 
     }
-    cc() {
-        var ul = []
-        var li = []
-        if (this.state.cs > 0) {
-            li.push(<li data-test="component-li" key={0}>123</li>)
-            ul.push(<ul key={0}>{li}</ul>)
-        } else {
-            li.push(<li data-test="component-li" key={0}>444</li>)
-            ul.push(<ul key={0}>{li}</ul>)
-        }
-        return ul
-    }
 
-    hh = () => {
-        if (this.state.kk > 0) {
-            console.log('kk')
-        } else {
-            console.log('hh')
-        }
-    }
-    mm = (e) => {
-        e.preventDefault()
-    }
     increment = () => {
         let { counter } = this.state
         counter += 1
@@ -42,14 +18,12 @@ class Button extends Component {
         })
     }
     render() {
+        // console.log(this.state.counter)
         return (
             <div>
-                <button data-test="component-button" onClick={this.props.onClose}>取消</button>
-                <button data-test="hh-button" onClick={this.hh}>hh</button>
-                <button data-test="mm-button" onClick={e => this.mm(e)}>hh</button>
+
                 <button data-test="increment-button" onClick={this.increment}>Increment</button>
-                {this.cc()}
-                {this.state.counter}
+
             </div>
         )
     }
