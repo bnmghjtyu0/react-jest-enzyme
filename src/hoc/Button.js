@@ -7,7 +7,7 @@ class Button extends Component {
         super(props)
         this.state = {
             counter: 0,
-             foo: 'Foo',
+            foo: 'Foo',
         }
     }
 

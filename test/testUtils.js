@@ -1,4 +1,5 @@
 import checkPropTypes from 'check-prop-types'
+import withLayout from '../src/containers/WithLayout'
 
 /**
  * Return ShallowWrapper containing node(s) with the given data-test value.
@@ -7,12 +8,16 @@ import checkPropTypes from 'check-prop-types'
  * @returns {ShallowWraper}
  */
 
+const withLayoutStore = () => {
+    return withLayout()
+}
 
-export const findByTestAttr = (wrapper, val) => {
+
+const findByTestAttr = (wrapper, val) => {
     return wrapper.find(`[data-test="${val}"]`);
 }
 
-export const checkProps = (component, conformingProps) => {
+const checkProps = (component, conformingProps) => {
     const propError = checkPropTypes(
         component.propTypes,
         conformingProps,
@@ -20,3 +25,5 @@ export const checkProps = (component, conformingProps) => {
         component.name);
     expect(propError).toBeUndefined()
 }
+
+export { withLayoutStore, findByTestAttr, checkProps }
