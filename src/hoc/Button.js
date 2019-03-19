@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import WithLayout from '../containers/WithLayout'
 
 class Button extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            counter: 0
+            counter: 0,
+             foo: 'Foo',
         }
-
     }
 
     increment = () => {
@@ -18,15 +19,13 @@ class Button extends Component {
         })
     }
     render() {
-        // console.log(this.state.counter)
+
         return (
             <div>
-
                 <button data-test="increment-button" onClick={this.increment}>Increment</button>
-
             </div>
         )
     }
 }
 
-export default Button
+export default WithLayout(Button)
