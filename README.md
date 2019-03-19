@@ -8,104 +8,14 @@ import { shallow, mount } from "enzyme";
 import { findByTestAttr, checkProps } from '../../../test/testUtils';
 import sinon from 'sinon';
 import Button from '../Button'
+import WithLayout from '../../containers/WithLayout'
 
-const defaultProps = {}
 
-const setup = (props = {}) => {
-    const setupProps = { ...defaultProps, ...props }
-    return shallow(<Button {...setupProps} />)
-}
-describe('increment function', () => {
-    test('increment-button', () => {
-        const wrapper = shallow(<Button name="app" />)
-        // console.log(wrapper.props())
-        // console.log(wrapper.state())
-        // console.log(wrapper.instance().props)
-        // >>  {name:'app'}
-        expect(wrapper.instance().props.name).toBe('app')
-    })
-    test('按鈕更新', () => {
-        const wrapper = mount(<Button />)
-        const button = findByTestAttr(wrapper, 'increment-button')
-        // console.log(w.props())
-        // >> onClick: [Function]
-        button.simulate('click')
-        // console.log(wrapper.state())
-        // >> {counter:1}
-        expect(wrapper.state().counter).toEqual(1)
-
-    })
-})
-describe('props function', () => {
-    test('onClose', () => {
-        const wrapper = setup()
-        const onClose = sinon.spy();
-        const w = findByTestAttr(wrapper, 'component-button')
-        w.simulate('click');
-        setTimeout(() => {
-            expect(onClose.calledOnce).toBe(true);
-        }, 1000)
-    });
-})
-
-describe('hh function', () => {
-    test('hh-button if kk > 0', () => {
-        const wrapper = setup()
-        const spy = sinon.spy();
-        wrapper.setState({ kk: 1 })
-        const w = findByTestAttr(wrapper, 'hh-button')
-        w.simulate('click');
-        setTimeout(() => {
-            expect(spy.calledOnce).toBe(true);
-        }, 1000)
-    })
-    test('hh-button if kk = 0', () => {
-        const wrapper = setup()
-        const spy = sinon.spy();
-        wrapper.setState({ kk: 0 })
-        const w = findByTestAttr(wrapper, 'hh-button')
-        w.simulate('click');
-        setTimeout(() => {
-            expect(spy.calledOnce).toBe(true);
-        }, 1000)
-    })
-})
-describe('mm function', () => {
-    test('mm-button preventDefault', () => {
-        const wrapper = setup()
-        const spy = sinon.spy();
-        wrapper.setState()
-        const w = findByTestAttr(wrapper, 'mm-button')
-        w.simulate('click', {
-            preventDefault: () => { }
-        });
-        setTimeout(() => {
-            expect(spy.calledOnce).toBe(true);
-        }, 1000)
-    })
-})
-
-describe('cc function', () => {
-    test('cc, cs>0', () => {
-        const wrapper = setup()
-        wrapper.setState({ cs: 10 })
-        const spy = sinon.spy();
-        const w = findByTestAttr(wrapper, 'component-li')
-        setTimeout(() => {
-            expect(w.length).toBe(1)
-        }, 1000)
-
-    })
-    test('cc, cs=0', () => {
-        const wrapper = setup()
-        wrapper.setState({ cs: 0 })
-        const spy = sinon.spy();
-        const w = findByTestAttr(wrapper, 'component-li')
-        setTimeout(() => {
-            expect(w.length).toBe(1)
-        }, 1000)
-    })
-})
+// 測試 hoc 方法一 : mount + shallow
+test("renders correctly", () => {
+  const wrapper = mount(shallow(<Button />).get(0))
+  console.log(wrapper)
+});
 ```
 ### Button.js
 
@@ -113,40 +23,17 @@ describe('cc function', () => {
 // Button.js
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import WithLayout from '../containers/WithLayout'
 
 class Button extends Component {
     constructor(props) {
         super(props)
         this.state = {
             counter: 0,
-            kk: 0,
-            cs: -1
+             foo: 'Foo',
         }
-
-    }
-    cc() {
-        var ul = []
-        var li = []
-        if (this.state.cs > 0) {
-            li.push(<li data-test="component-li" key={0}>123</li>)
-            ul.push(<ul key={0}>{li}</ul>)
-        } else {
-            li.push(<li data-test="component-li" key={0}>444</li>)
-            ul.push(<ul key={0}>{li}</ul>)
-        }
-        return ul
     }
 
-    hh = () => {
-        if (this.state.kk > 0) {
-            console.log('kk')
-        } else {
-            console.log('hh')
-        }
-    }
-    mm = (e) => {
-        e.preventDefault()
-    }
     increment = () => {
         let { counter } = this.state
         counter += 1
@@ -155,22 +42,37 @@ class Button extends Component {
         })
     }
     render() {
+
         return (
             <div>
-                <button data-test="component-button" onClick={this.props.onClose}>取消</button>
-                <button data-test="hh-button" onClick={this.hh}>hh</button>
-                <button data-test="mm-button" onClick={e => this.mm(e)}>hh</button>
                 <button data-test="increment-button" onClick={this.increment}>Increment</button>
-                {this.cc()}
-                {this.state.counter}
             </div>
         )
     }
 }
 
-export default Button
+export default WithLayout(Button)
 ```
 
+### WithLayout.js
+```js
+import React, { Component } from 'react'
+
+const WithLayout = WrappedComponent => props => {
+    return (
+        <div>
+            withLayout
+            <div className="container-fluid page-body-wrapper">
+                <React.Fragment>
+                    <WrappedComponent {...props} />
+                </React.Fragment>
+            </div>
+        </div>
+    )
+}
+export default WithLayout
+
+```
 ### 執行測試
 
 ```
