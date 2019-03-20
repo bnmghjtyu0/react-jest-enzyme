@@ -9,21 +9,32 @@ import { shallow, mount } from "enzyme";
 import { findByTestAttr, checkProps } from '../../../../test/testUtils';
 import sinon from 'sinon';
 import Home from '../index'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router-dom' // 寫法一
+import { MemoryRouter } from 'react-router' // 寫法二
 
 const defaultProps = {}
 
-const setup = (props = {}) => {
-    const setupProps = { ...defaultProps, ...props }
-    return mount(<Router><Home {...setupProps} /></Router>)
-}
-describe('increment function', () => {
-    test('increment-button', () => {
-        const wrapper = setup()
-        console.log(wrapper)
+describe('react-router', () => {
+    test('寫法一', () => {
+        const wrapper = mount(
+            <Router>
+                <Home />
+            </Router>)
+        console.log(wrapper.props())
     })
+    test('寫法二', () => {
+        const wrapper = mount(
+            <MemoryRouter>
+                <Home />
+            </MemoryRouter>
+        );
+        console.log(wrapper.props())
 
+    });
 })
+
+
+
 ```
 
 ### Home.js

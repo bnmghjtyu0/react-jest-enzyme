@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import './App.css';
 // const Home = React.lazy(() => import('./views/Home/index'))
 import Home from './views/Home/index'
@@ -12,8 +12,12 @@ class App extends Component {
         return (
             <div className="App">
                 <Router>
-                    <Route exact path="/" component={props => <Home {...props} />} />
-                    <Route path="/about" component={props => <About {...props} />} />
+                    <div>
+                        <Switch>
+                            <Route exact path="/" component={props => <Home {...props} />} />
+                            <Route path="/about" component={props => <About {...props} />} />
+                        </Switch>
+                    </div>
                 </Router>
             </div>
         );

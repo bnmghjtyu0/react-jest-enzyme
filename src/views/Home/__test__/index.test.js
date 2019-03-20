@@ -4,17 +4,26 @@ import { findByTestAttr, checkProps } from '../../../../test/testUtils';
 import sinon from 'sinon';
 import Home from '../index'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { MemoryRouter } from 'react-router'
 
 const defaultProps = {}
 
-const setup = (props = {}) => {
-    const setupProps = { ...defaultProps, ...props }
-    return mount(<Router><Home {...setupProps} /></Router>)
-}
 describe('increment function', () => {
     test('increment-button', () => {
-        const wrapper = setup()
-        console.log(wrapper)
+        const wrapper = mount(
+            <Router>
+                <Home />
+            </Router>)
+        console.log(wrapper.props())
     })
+    // test('invalid path should redirect to 404', () => {
+    //     const wrapper = mount(
+    //         <MemoryRouter>
+    //             <Home />
+    //         </MemoryRouter>
+    //     );
+    //     console.log(wrapper.props())
 
+    // });
 })
+
