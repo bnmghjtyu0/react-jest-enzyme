@@ -1,4 +1,4 @@
-## 測試 Router
+## 測試 react-router
 
 ### Home.test.js
 使用 mount 需要加入 <Router>
@@ -9,41 +9,31 @@ import { shallow, mount } from "enzyme";
 import { findByTestAttr, checkProps } from '../../../../test/testUtils';
 import sinon from 'sinon';
 import Home from '../index'
-import { BrowserRouter as Router } from 'react-router-dom' // 寫法一
-import { MemoryRouter } from 'react-router' // 寫法二
+import { MemoryRouter } from 'react-router'
 
 const defaultProps = {}
 
-describe('react-router', () => {
-    test('寫法一', () => {
-        const wrapper = mount(
-            <Router>
-                <Home />
-            </Router>)
-        console.log(wrapper.props())
-    })
-    test('寫法二', () => {
+describe('home', () => {
+    test('component-home', () => {
         const wrapper = mount(
             <MemoryRouter>
                 <Home />
-            </MemoryRouter>
-        );
-        console.log(wrapper.props())
-
-    });
+            </MemoryRouter>)
+        const componentHome = findByTestAttr(wrapper, 'component-home')
+        expect(componentHome.length).toBe(1)
+    })
 })
-
-
 
 ```
 
 ### Home.js
 ```js
 import React from 'react'
+import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
 const Home = () => {
     return (
-        <div>
+        <div data-test="component-home">
             <Link to="/">首頁</Link>
             <Link to="/about">關於我們</Link>
             <h4>首頁</h4>
@@ -51,8 +41,7 @@ const Home = () => {
     )
 }
 
-
-export default Home
+export default withRouter(Home)
 ```
 
 ### 執行測試

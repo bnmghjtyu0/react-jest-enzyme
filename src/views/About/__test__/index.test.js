@@ -2,18 +2,18 @@ import React from 'react'
 import { shallow, mount } from "enzyme";
 import { findByTestAttr, checkProps } from '../../../../test/testUtils';
 import sinon from 'sinon';
-import Home from '../index'
+import About from '../index'
 import { MemoryRouter } from 'react-router'
 
 const defaultProps = {}
 
-describe('home', () => {
-    test('component-home', () => {
+describe('about', () => {
+    test('component-about', () => {
         const wrapper = mount(
             <MemoryRouter>
-                <Home />
+                <About />
             </MemoryRouter>)
-        const componentHome = findByTestAttr(wrapper, 'component-home')
+        const componentHome = findByTestAttr(wrapper, 'component-about')
         expect(componentHome.length).toBe(1)
     })
 })
