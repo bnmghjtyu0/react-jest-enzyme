@@ -1,5 +1,4 @@
 import React from 'react'
-import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
 const Home = () => {
     return (
@@ -12,4 +11,4 @@ const Home = () => {
 }
 
 
-export default withRouter(Home)
+export default Home
