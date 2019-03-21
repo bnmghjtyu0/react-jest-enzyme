@@ -12,6 +12,7 @@ const setup = (props = {}) => {
     const setupProps = { ...defaultProps, ...props }
     return shallow(<SearchContainer {...setupProps} />)
 }
+jest.mock('../api')
 
 describe('App', () => {
     describe('when the button is clicked', () => {

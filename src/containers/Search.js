@@ -12,6 +12,7 @@ class SearchContainer extends React.Component {
         this.getData()
     }
     async getData() {
+        // const result = await axios.get("https://api.coindesk.com/v1/bpi/currentprice.json");
         const result = await _getParkingApi("/v1/bpi/currentprice.json");
         this.setState({ rate: result.data.bpi.USD.rate_float });
     }
