@@ -87,7 +87,7 @@ export default SearchContainer;
 
 ### 3/4 api/index.js
 
-```
+```js
 
 import axios from 'axios'
 
@@ -104,7 +104,7 @@ export default _getParkingApi
 ### 4/4 api/__mock__/index.js
 
 使用 jest.mock('../api') 調用
-```
+```js
 const _getParkingApi = () => {
     return Promise.resolve({
         response: {
