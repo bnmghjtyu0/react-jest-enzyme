@@ -1,10 +1,10 @@
 
 import axios from 'axios'
 
-const _getParkingApi = (event) => {
+const _getParkingApi = (params) => {
     let set = axios({
         method: "get",
-        url: `https://gank.io/api/random/data/福利/${event}`
+        url: `https://api.coindesk.com/${params}`
     })
     return set
 }

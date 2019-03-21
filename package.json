@@ -5,6 +5,7 @@
   "dependencies": {
     "ajv": "^6.9.2",
     "axios": "^0.18.0",
+    "axios-mock-adapter": "^1.16.0",
     "enzyme-async-helpers": "^0.9.1",
     "moxios": "^0.4.0",
     "react": "^16.8.3",

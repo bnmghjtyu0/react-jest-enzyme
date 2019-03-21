@@ -1,28 +1,28 @@
 import React from "react";
-import Search from "../components/Search";
 import _getParkingApi from "../api/"
-
+import axios from 'axios'
 class SearchContainer extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            articles: []
+            rate: ""
         }
     }
-    componentWillMount() {
-        this.performSearch()
+    componentDidMount() {
+        this.getData()
     }
-    performSearch = async (event) => {
-        const res = await _getParkingApi(event);
-        this.setState({ articles: res.data.results })
+    async getData() {
+        const result = await _getParkingApi("/v1/bpi/currentprice.json");
+        this.setState({ rate: result.data.bpi.USD.rate_float });
     }
-
     render() {
         return (
-            <Search
-                performSearch={this.performSearch}
-                articles={this.state.articles}
-            />
+            <div>
+                <button data-test="btn-click" className="btn" onClick={this.getData}>
+                    GET DATA
+                  </button>
+                <h1>{this.state.rate}</h1>
+            </div>
         )
     }
 }

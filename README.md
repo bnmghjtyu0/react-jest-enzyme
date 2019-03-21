@@ -17,6 +17,8 @@
 
 
 ## 參考文章
+https://medium.com/@zach.grusznski/how-to-use-axios-mock-adapter-to-test-network-requests-in-react-475e99cda5ea
+
 https://blog.bitsrc.io/how-to-test-react-components-using-jest-and-enzyme-fab851a43875
 
 async 教學文
