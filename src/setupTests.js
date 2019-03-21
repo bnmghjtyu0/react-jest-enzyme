@@ -1,6 +1,6 @@
-import Enzyme, { shallow } from "enzyme";
+import Enzyme, { shallow, configure } from "enzyme";
 import EnzymeAdapter from "enzyme-adapter-react-16";
 import sinon from 'sinon'
-Enzyme.configure({ adapter: new EnzymeAdapter() });
+configure({ adapter: new EnzymeAdapter(), disableLifecycleMethods: true });
 
 global.sinon = sinon

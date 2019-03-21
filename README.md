@@ -1,9 +1,6 @@
 ## axios async get
 
-### 這裡使用了 `axios-mock-adapter`
-```
-npm install --save axios-mock-adapter
-```
+
 
 ### 1/4 Search.test.js
 
@@ -12,9 +9,8 @@ import React from 'react'
 import { shallow } from "enzyme";
 import { findByTestAttr } from '../../test/testUtils';
 import SearchContainer from './Search'
-import axios from 'axios'
-import MockAdapter from 'axios-mock-adapter'
-let mock = new MockAdapter(axios)
+import api from '../api'
+jest.mock('../api')
 
 const defaultProps = {}
 
@@ -22,29 +18,26 @@ const setup = (props = {}) => {
     const setupProps = { ...defaultProps, ...props }
     return shallow(<SearchContainer {...setupProps} />)
 }
-jest.mock('../api')
 
 describe('App', () => {
-    describe('when the button is clicked', () => {
-        const spy = jest.spyOn(SearchContainer.prototype, 'getData');
-        const wrapper = setup()
-        const mockData = { bpi: { USD: { rate_float: 5 } } };
-        beforeEach(() => {
-            const mock = new MockAdapter(axios);
-            mock.onGet("https://api.coindesk.com/v1/bpi/currentprice.json")
-                .reply(200, mockData);
-        })
-        test('calls the `getData` function', () => {
-            expect(spy).toHaveBeenCalled();
-        });
-        test('sets the `state.rate` to the bitcoin exchange rate that we    get from the GET request', () => {
-            const btn = findByTestAttr(wrapper, 'btn-click')
-            btn.simulate('click')
-            setTimeout(() => {
-                expect(wrapper.state().rate).toEqual(mockData.bpi.USD.rate_float);
-            }, 1000)
-        });
+    it('calls the `getData` function', async () => {
+        const _getParkingApi = () => {
+            return Promise.resolve({
+                response: {
+                    bpi: { USD: { rate_float: 5 } }
+                }
+            })
+        }
+        let res = await _getParkingApi();
 
+        const wrapper = setup()
+        const btn = findByTestAttr(wrapper, 'btn-click')
+        btn.simulate('click')
+        console.log(res)
+        wrapper.setState({
+            rate: res.response.bpi.USD.rate_float
+        })
+        expect(wrapper.state().rate).toEqual(5)
     });
 });
 
@@ -61,10 +54,11 @@ class SearchContainer extends React.Component {
         this.state = {
             rate: ""
         }
+        this.getData = this.getData.bind(this);
     }
-    componentDidMount() {
-        this.getData()
-    }
+    // componentDidMount() {
+    //     this.getData()
+    // }
     async getData() {
         // const result = await axios.get("https://api.coindesk.com/v1/bpi/currentprice.json");
         const result = await _getParkingApi("/v1/bpi/currentprice.json");
@@ -115,6 +109,12 @@ const _getParkingApi = () => {
 export default _getParkingApi
 ```
 
+## 相關套件
+
+### `axios-mock-adapter`
+```
+npm install --save axios-mock-adapter
+```
 
 ## 參考文章
 https://medium.com/@zach.grusznski/how-to-use-axios-mock-adapter-to-test-network-requests-in-react-475e99cda5ea
