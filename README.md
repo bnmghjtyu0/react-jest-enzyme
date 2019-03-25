@@ -163,3 +163,6 @@ npm install --save axios-mock-adapter
 
 ## 參考文章
 https://www.leighhalliday.com/testing-asynchronous-components-mocks-jest
+
+## 其他相關
+mockImplementationOnce: https://www.leighhalliday.com/mocking-axios-in-jest-testing-async-functions
