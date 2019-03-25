@@ -1,32 +1,58 @@
 import React from "react";
-import _getParkingApi from "../api/"
+import unsplash from "../services/unsplash"
 import axios from 'axios'
-class SearchContainer extends React.Component {
+class Search extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            rate: ""
+            iamges: []
         }
-        this.getData = this.getData.bind(this);
     }
-    // componentDidMount() {
-    //     this.getData()
-    // }
-    async getData() {
-        // const result = await axios.get("https://api.coindesk.com/v1/bpi/currentprice.json");
-        const result = await _getParkingApi("/v1/bpi/currentprice.json");
-        this.setState({ rate: result.data.bpi.USD.rate_float });
+    componentDidMount() {
+        this.fetchImages('Mountanins')
     }
+    fetchImages = async term => {
+        this.setState({
+            status: "searching",
+            term: term,
+            images: []
+        })
+        try {
+            const images = await unsplash(term);
+            this.setState({
+                status: "done",
+                images
+            })
+        } catch (error) {
+            this.setState({
+                status: 'error'
+            })
+        }
+    }
+
     render() {
+        const { term, status, images } = this.state
         return (
-            <div>
-                <button data-test="btn-click" className="btn" onClick={this.getData}>
+            <div className="container">
+                <div className="row">
+                    {/* <button data-test="btn-click" className="btn" onClick={this.getData}>
                     GET DATA
-                  </button>
-                <h1>{this.state.rate}</h1>
+                  </button>*/}
+
+                    {images === undefined ? null : images.length === 0 ? null
+                        : images.map(image => {
+                            return (
+                                <div className="col-6">
+                                    <img key={image.id} src={image.urls.full} className="img-fluid" />
+                                </div>
+                            )
+                        })
+                    }
+
+                </div>
             </div>
         )
     }
 }
 
-export default SearchContainer;
+export default Search;
