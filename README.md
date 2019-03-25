@@ -6,111 +6,152 @@ https://api.unsplash.com/search/photos?client_id=4070052047e85343f77f7bbfb056ca4
 ```
 
 
-### 1/4 Search.test.js
+### 1/5 Search.test.js
 
 ```js
 import React from 'react'
 import { shallow } from "enzyme";
 import { findByTestAttr } from '../../test/testUtils';
-import SearchContainer from './Search'
-import api from '../api'
-jest.mock('../api')
+import Search from './Search'
+import api from '../services/unsplash'
 
-const defaultProps = {}
+jest.mock("../services/unsplash");
 
-const setup = (props = {}) => {
-    const setupProps = { ...defaultProps, ...props }
-    return shallow(<SearchContainer {...setupProps} />)
-}
+test("fetches images from unsplash and renders them on mount", done => {
+    const wrapper = shallow(<Search />);
+    setTimeout(() => {
+        wrapper.update();
 
-describe('App', () => {
-    it('calls the `getData` function', async () => {
-        const _getParkingApi = () => {
-            return Promise.resolve({
-                response: {
-                    bpi: { USD: { rate_float: 5 } }
-                }
-            })
-        }
-        let res = await _getParkingApi();
-
-        const wrapper = setup()
-        const btn = findByTestAttr(wrapper, 'btn-click')
-        btn.simulate('click')
-        console.log(res)
-        wrapper.setState({
-            rate: res.response.bpi.USD.rate_float
-        })
-        expect(wrapper.state().rate).toEqual(5)
+        const state = wrapper.instance().state;
+        console.log(state)
+        expect(state.term).toEqual("Mountains");
+        expect(state.status).toEqual("done");
+        expect(state.images.length).toEqual(1);
+        done();
     });
 });
-
 ```
 
-### 2/4 Search.js
+### 2/5 Search.js
 ```js
 import React from "react";
-import _getParkingApi from "../api/"
+import unsplash from "../services/unsplash"
 import axios from 'axios'
-class SearchContainer extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            rate: ""
+class Search extends React.Component {
+    state = {
+        term: "",
+        images: [],
+        status: "initial",
+        test: []
+    };
+    componentDidMount() {
+        this.fetchImages("Mountains");
+    }
+
+    fetchImages = async term => {
+        this.setState({
+            status: "searching",
+            term: term,
+            images: [],
+            test: [{ id: 1 }]
+        });
+
+        try {
+            const images = await unsplash(term);
+            console.log(images)
+            this.setState({
+                status: "done",
+                images: images
+            });
+        } catch (error) {
+            this.setState({
+                status: "error"
+            });
         }
-        this.getData = this.getData.bind(this);
-    }
-    // componentDidMount() {
-    //     this.getData()
-    // }
-    async getData() {
-        // const result = await axios.get("https://api.coindesk.com/v1/bpi/currentprice.json");
-        const result = await _getParkingApi("/v1/bpi/currentprice.json");
-        this.setState({ rate: result.data.bpi.USD.rate_float });
-    }
+    };
+
+
     render() {
+        const { term, status, images } = this.state
         return (
-            <div>
-                <button data-test="btn-click" className="btn" onClick={this.getData}>
-                    GET DATA
-                  </button>
-                <h1>{this.state.rate}</h1>
+            <div className="App">
+                {images.map(image => <img src={image.urls.full} key={image.id} className="img-fluid" />)}
             </div>
         )
     }
 }
 
-export default SearchContainer;
+export default Search;
 ```
 
-### 3/4 api/index.js
+### 3/5 services/unsplash.js
 
 ```js
 
-import axios from 'axios'
+import axios from "axios";
 
-const _getParkingApi = (params) => {
-    let set = axios({
-        method: "get",
-        url: `https://api.coindesk.com/${params}`
-    })
-    return set
-}
+export default async term => {
+  const response = await axios.get("https://api.unsplash.com/search/photos", {
+    params: {
+      client_id:
+        "4070052047e85343f77f7bbfb056ca4da387e25b3114baff0644247779a29964",
+      query: term
+    }
+  });
 
-export default _getParkingApi
+  return response.data.results;
+};
 ```
-### 4/4 api/__mock__/index.js
+### 4/5 services/__mock__/unsplash.js
 
 使用 jest.mock('../api') 調用
 ```js
-const _getParkingApi = () => {
-    return Promise.resolve({
-        response: {
-            bpi: { USD: { rate_float: 5 } }
-        }
-    })
-}
-export default _getParkingApi
+const fakeData = [
+    {
+        id: 1,
+        categories: [{ title: "Nice image" }],
+        user: {
+            name: "Mr. Photographer"
+        },
+        links: {
+            html: "https://www.leighhalliday.com"
+        },
+        urls: {
+            small: "https://www.image.com/nice.jpg"
+        },
+        likes: 10
+    }
+];
+
+export default async term => {
+    return await new Promise(resolve => {
+        resolve(fakeData);
+    });
+};
+```
+
+### 5/5 setupTest.js
+
+```js
+import React from "react";
+import Enzyme, { shallow, render, mount } from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
+import { createSerializer } from "enzyme-to-json";
+import sinon from "sinon";
+
+// Set the default serializer for Jest to be the from enzyme-to-json
+// This produces an easier to read (for humans) serialized format.
+expect.addSnapshotSerializer(createSerializer({ mode: "deep" }));
+
+// React 16 Enzyme adapter
+Enzyme.configure({ adapter: new Adapter() });
+
+// Make Enzyme functions available in all test files without importing
+global.React = React;
+global.shallow = shallow;
+global.render = render;
+global.mount = mount;
+global.sinon = sinon;
 ```
 
 ## 相關套件
