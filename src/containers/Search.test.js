@@ -4,26 +4,19 @@ import { findByTestAttr } from '../../test/testUtils';
 import Search from './Search'
 import api from '../services/unsplash'
 
-const defaultProps = {}
-
-const setup = (props = {}) => {
-    const setupProps = { ...defaultProps, ...props }
-    return shallow(<Search {...setupProps} />)
-}
-
 jest.mock("../services/unsplash");
 
-test('t', done => {
-    const wrapper = shallow(<Search />)
-
+test("fetches images from unsplash and renders them on mount", done => {
+    const wrapper = shallow(<Search />);
     setTimeout(() => {
-        wrapper.update()
-        console.log(wrapper.debug())
+        wrapper.update();
 
         const state = wrapper.instance().state;
         console.log(state)
-        expect(state.images.length).toEqual(1)
+        expect(state.term).toEqual("Mountains");
+        expect(state.status).toEqual("done");
+        expect(state.images.length).toEqual(1);
 
-        done()
-    })
-})
+        done();
+    });
+});
