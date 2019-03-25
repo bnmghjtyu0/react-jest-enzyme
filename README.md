@@ -5,6 +5,7 @@
 https://api.unsplash.com/search/photos?client_id=4070052047e85343f77f7bbfb056ca4da387e25b3114baff0644247779a29964&query=term
 ```
 
+
 ### 1/4 Search.test.js
 
 ```js
@@ -120,13 +121,4 @@ npm install --save axios-mock-adapter
 ```
 
 ## 參考文章
-https://medium.com/@zach.grusznski/how-to-use-axios-mock-adapter-to-test-network-requests-in-react-475e99cda5ea
-
-https://blog.bitsrc.io/how-to-test-react-components-using-jest-and-enzyme-fab851a43875
-
-async 教學文
-https://www.gabrielnordeborn.se/testing-async-react-components-with-enzyme-and-jest/
-https://github.com/airbnb/enzyme/issues/346
-
-關於 sinon
-https://blog.kazaff.me/2016/11/11/%E8%AF%91-Sinon%E5%85%A5%E9%97%A8%EF%BC%9A%E5%88%A9%E7%94%A8Mocks%EF%BC%8CSpies%E5%92%8CStubs%E5%AE%8C%E6%88%90javascript%E6%B5%8B%E8%AF%95/
+https://www.leighhalliday.com/testing-asynchronous-components-mocks-jest
