@@ -16,7 +16,6 @@ test("fetches images from unsplash and renders them on mount", done => {
         expect(state.term).toEqual("Mountains");
         expect(state.status).toEqual("done");
         expect(state.images.length).toEqual(1);
-
         done();
     });
 });
