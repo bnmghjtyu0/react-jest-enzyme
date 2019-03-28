@@ -15,14 +15,27 @@ const defaultProps = {}
 
 describe('home', () => {
     test('component-home', () => {
-        const wrapper = mount(
+
+        // mount
+        // const wrapper = mount(
+        //     <MemoryRouter>
+        //         <Home />
+        //     </MemoryRouter>)
+        // console.log(wrapper.find(Home).instance())
+
+        // shallow
+        const wrapper = shallow(
             <MemoryRouter>
                 <Home />
             </MemoryRouter>)
+        console.log(wrapper.find(Home).dive().instance())
+
+
         const componentHome = findByTestAttr(wrapper, 'component-home')
         expect(componentHome.length).toBe(1)
     })
 })
+
 
 ```
 
