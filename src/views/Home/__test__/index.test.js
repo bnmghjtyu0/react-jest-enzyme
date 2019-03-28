@@ -18,14 +18,6 @@ describe('home', () => {
         )
         console.log(wrapper.find('Home').instance())
 
-        // const wrapper = mount(
-        //     <MemoryRouter>
-        //         <Home />
-        //     </MemoryRouter>
-        // )
-        // console.log(wrapper.find(Home).type())
-
-
         // const componentHome = findByTestAttr(wrapper, 'component-home')
         // expect(componentHome.length).toBe(1)
     })
