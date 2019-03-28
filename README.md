@@ -14,22 +14,39 @@ import { shallow } from "enzyme";
 import { findByTestAttr } from '../../test/testUtils';
 import Search from './Search'
 import api from '../services/unsplash'
+import { MemoryRouter } from 'react-router'
+import axios from 'axios'
 
-jest.mock("../services/unsplash");
+const wrapper = mount(
+    <MemoryRouter>
+        <Search />
+    </MemoryRouter>);
+test("try success", async () => {
+    // 1. state.images 沒有資料
+    // console.log(wrapper.find('Search').instance().state.images)
 
-test("fetches images from unsplash and renders them on mount", done => {
-    const wrapper = shallow(<Search />);
-    setTimeout(() => {
-        wrapper.update();
 
-        const state = wrapper.instance().state;
-        console.log(state)
-        expect(state.term).toEqual("Mountains");
-        expect(state.status).toEqual("done");
-        expect(state.images.length).toEqual(1);
-        done();
-    });
-});
+    const res = await axios.get('https://api.unsplash.com/search/photos', {
+        params: {
+            client_id:
+                "4070052047e85343f77f7bbfb056ca4da387e25b3114baff0644247779a29964",
+            query: 'Mountains'
+        }
+    })
+    expect(res.status).toBe(200);
+    const data = res.data.results
+    // 2. state.images 取得資料
+    wrapper.find('Search').instance().state.images
+    expect(wrapper.find('Search').instance().state.images).toEqual(data)
+})
+test("catch error", async () => {
+    // 1. state.images 沒有資料
+    // console.log(wrapper.find('Search').instance().state.images)
+    const res = await axios.get('https://api.unsplash.com/search/photos')
+    expect(res.status).toBe(401);
+
+})
+
 ```
 
 ### 2/5 Search.js
@@ -37,6 +54,7 @@ test("fetches images from unsplash and renders them on mount", done => {
 import React from "react";
 import unsplash from "../services/unsplash"
 import axios from 'axios'
+import WithLayout from './WithLayout'
 class Search extends React.Component {
     state = {
         term: "",
@@ -58,10 +76,9 @@ class Search extends React.Component {
 
         try {
             const images = await unsplash(term);
-            console.log(images)
             this.setState({
                 status: "done",
-                images: images
+                images: images.data.results
             });
         } catch (error) {
             this.setState({
@@ -81,12 +98,13 @@ class Search extends React.Component {
     }
 }
 
-export default Search;
+export default WithLayout(Search);
 ```
 
 ### 3/5 services/unsplash.js
 
 ```js
+
 
 import axios from "axios";
 
@@ -99,8 +117,8 @@ export default async term => {
     }
   });
 
-  return response.data.results;
-};
+  return response;
+}
 ```
 ### 4/5 services/__mock__/unsplash.js
 
