@@ -10,5 +10,5 @@ export default async term => {
     }
   });
 
-  return response.data.results;
-};
+  return response;
+}

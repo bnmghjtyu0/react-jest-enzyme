@@ -3,19 +3,14 @@ import { shallow } from "enzyme";
 import { findByTestAttr } from '../../test/testUtils';
 import Search from './Search'
 import api from '../services/unsplash'
+import { MemoryRouter } from 'react-router'
 
-jest.mock("../services/unsplash");
 
-test("fetches images from unsplash and renders them on mount", done => {
-    const wrapper = shallow(<Search />);
-    setTimeout(() => {
-        wrapper.update();
+test("fetches images from unsplash and renders them on mount", async () => {
+    const wrapper = mount(
+        <MemoryRouter>
+            <Search />
+        </MemoryRouter>);
+    const res = await wrapper.find('Search').instance().fetchImages()
 
-        const state = wrapper.instance().state;
-        console.log(state)
-        expect(state.term).toEqual("Mountains");
-        expect(state.status).toEqual("done");
-        expect(state.images.length).toEqual(1);
-        done();
-    });
-});
+})

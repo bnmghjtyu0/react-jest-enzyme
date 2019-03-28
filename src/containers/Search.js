@@ -1,6 +1,7 @@
 import React from "react";
 import unsplash from "../services/unsplash"
 import axios from 'axios'
+import WithLayout from './WithLayout'
 class Search extends React.Component {
     state = {
         term: "",
@@ -22,10 +23,9 @@ class Search extends React.Component {
 
         try {
             const images = await unsplash(term);
-            console.log(images)
             this.setState({
                 status: "done",
-                images: images
+                images: images.data.results
             });
         } catch (error) {
             this.setState({
@@ -45,4 +45,4 @@ class Search extends React.Component {
     }
 }
 
-export default Search;
+export default WithLayout(Search);
