@@ -6,7 +6,7 @@ https://api.unsplash.com/search/photos?client_id=4070052047e85343f77f7bbfb056ca4
 ```
 
 
-### 1/5 Search.test.js
+### 1/6 Search.test.js
 
 ```js
 import React from 'react'
@@ -49,7 +49,7 @@ test("catch error", async () => {
 
 ```
 
-### 2/5 Search.js
+### 2/6 Search.js
 ```js
 import React from "react";
 import unsplash from "../services/unsplash"
@@ -101,7 +101,7 @@ class Search extends React.Component {
 export default WithLayout(Search);
 ```
 
-### 3/5 services/unsplash.js
+### 3/6 services/unsplash.js
 
 ```js
 
@@ -120,7 +120,7 @@ export default async term => {
   return response;
 }
 ```
-### 4/5 services/__mock__/unsplash.js
+### 4/6 services/__mock__/unsplash.js
 
 使用 jest.mock('../api') 調用
 ```js
@@ -148,7 +148,7 @@ export default async term => {
 };
 ```
 
-### 5/5 setupTest.js
+### 5/6 setupTest.js
 
 ```js
 import React from "react";
@@ -170,6 +170,14 @@ global.shallow = shallow;
 global.render = render;
 global.mount = mount;
 global.sinon = sinon;
+```
+
+### 6/6 package.json
+
+```json
+  "jest": {
+    "testURL": "https://api.unsplash.com"
+    }
 ```
 
 ## 相關套件
