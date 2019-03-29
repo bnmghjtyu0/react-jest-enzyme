@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import SearchContainer from "./containers/Search"
 
 const App = () => {
-    return <SearchContainer />
+    return "123"
 }
 export default App;

@@ -1,112 +1,51 @@
-## axios async get
+## axios-mock-adapter
 
-
-
-### 1/4 Search.test.js
+### 1/2 unsplash.test.js
 
 ```js
-import React from 'react'
-import { shallow } from "enzyme";
-import { findByTestAttr } from '../../test/testUtils';
-import SearchContainer from './Search'
-import api from '../api'
-jest.mock('../api')
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
+import unsplash from '../unsplash';
 
-const defaultProps = {}
-
-const setup = (props = {}) => {
-    const setupProps = { ...defaultProps, ...props }
-    return shallow(<SearchContainer {...setupProps} />)
-}
-
-describe('App', () => {
-    it('calls the `getData` function', async () => {
-        const _getParkingApi = () => {
-            return Promise.resolve({
-                response: {
-                    bpi: { USD: { rate_float: 5 } }
-                }
-            })
-        }
-        let res = await _getParkingApi();
-
-        const wrapper = setup()
-        const btn = findByTestAttr(wrapper, 'btn-click')
-        btn.simulate('click')
-        console.log(res)
-        wrapper.setState({
-            rate: res.response.bpi.USD.rate_float
-        })
-        expect(wrapper.state().rate).toEqual(5)
+describe('unsplash', () => {
+    it('returns data when sendMessage is called', done => {
+        var mock = new MockAdapter(axios);
+        const data = { results: ["cat.jpg"] }
+        mock.onGet('https://api.unsplash.com/search/photos').reply(200, data);
+        unsplash.sendMessage('cats').then(response => {
+            expect(response).toEqual(data);
+            done();
+        });
     });
 });
 
 ```
 
-### 2/4 Search.js
+### 2/2 unsplash.js
 ```js
-import React from "react";
-import _getParkingApi from "../api/"
-import axios from 'axios'
-class SearchContainer extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            rate: ""
-        }
-        this.getData = this.getData.bind(this);
-    }
-    // componentDidMount() {
-    //     this.getData()
-    // }
-    async getData() {
-        // const result = await axios.get("https://api.coindesk.com/v1/bpi/currentprice.json");
-        const result = await _getParkingApi("/v1/bpi/currentprice.json");
-        this.setState({ rate: result.data.bpi.USD.rate_float });
-    }
-    render() {
-        return (
-            <div>
-                <button data-test="btn-click" className="btn" onClick={this.getData}>
-                    GET DATA
-                  </button>
-                <h1>{this.state.rate}</h1>
-            </div>
-        )
-    }
+import axios from 'axios';
+
+function sendMessage(term) {
+    return new Promise((resolve, reject) => {
+        axios({
+            method: 'GET',
+            url: 'https://api.unsplash.com/search/photos',
+            params: {
+                query: term
+            }
+        }).then(({ status, data }) => {
+            if (status === 200) {
+                resolve(data);
+            } else {
+                reject(new Error('error'));
+            }
+        });
+    });
 }
 
-export default SearchContainer;
-```
-
-### 3/4 api/index.js
-
-```js
-
-import axios from 'axios'
-
-const _getParkingApi = (params) => {
-    let set = axios({
-        method: "get",
-        url: `https://api.coindesk.com/${params}`
-    })
-    return set
-}
-
-export default _getParkingApi
-```
-### 4/4 api/__mock__/index.js
-
-使用 jest.mock('../api') 調用
-```js
-const _getParkingApi = () => {
-    return Promise.resolve({
-        response: {
-            bpi: { USD: { rate_float: 5 } }
-        }
-    })
-}
-export default _getParkingApi
+export default {
+    sendMessage
+};
 ```
 
 ## 相關套件
