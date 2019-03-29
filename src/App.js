@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import Button from './Button/Button';
+import Modal from './Modal/Modal'
 class App extends Component {
     constructor(props) {
         super(props)
@@ -8,8 +8,7 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <Button />
-
+                <Modal />
             </div>
         );
     }
