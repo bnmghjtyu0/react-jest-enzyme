@@ -15,12 +15,10 @@ class Mock extends Component {
     }
 
     getAllGoods = async () => {
-
-        return fetch.fetchPostsList(data => {
+        return fetch.fetchPostsList('/posts', res => {
             this.setState({
-                datas:data
+                datas: res.data
             })
-            // do something
         });
     }
 
