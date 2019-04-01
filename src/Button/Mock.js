@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-
+import axios from 'axios'
 class Mock extends Component {
     constructor(props) {
         super(props)
@@ -10,31 +10,13 @@ class Mock extends Component {
 
     }
 
-    // 判斷該產品是否有折扣
-    checkDiscount = (name) => {
-        if (name === 'milk') {
-            return true
-        }
-        return false
-    }
-
-    // 計算購買產品的總額
-    calculateThePrice = (goods, checkDiscount) => {
-        let totalPrice = 0
-        goods.forEach((item) => {
-            // 先計算原價
-            let price = Number(item.price) * Number(item.count)
-
-            // 如果有折扣要半價
-            if (this.checkDiscount(item.name)) {
-                price *= 0.5
-            }
-
-            // 將價格加到總合上
-            totalPrice += price
+    getAllGoods = () => {
+        // 使用 axios 中的 get Function 獲得資料
+        return axios.get('url/allGoods').then((resp) => {
+            return resp.data
         })
-        return totalPrice
     }
+
 
     render() {
         // console.log(this.state.counter)
