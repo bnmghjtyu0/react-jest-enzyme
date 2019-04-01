@@ -16,19 +16,14 @@ jest.mock('axios')
 
 test('should fetch goods', () => {
     const wrapper = setup()
-    const goods = [{ name: 'Milk' }, { name: 'Apple' }]
-    const res = { data: goods }
-    // 為 axios 中的 get 模擬回傳值為 res
-    axios.get.mockResolvedValue(res)
+    // 使用 jset.spyOn 模擬 axios 中的 get Function
+    const spyFn = jest.spyOn(axios, 'get')
 
-    /*
-      執行並替回傳值進行斷言，
-      這時候 axios 已經被 jest.mock 給模擬了，
-      所以 getAllGoods 內的 axios.get 其實不會執行，
-      只會回傳用 mockResolvedValue 指定的內容而已
-    */
+    // 這時候 getAllGoods 真的會執行 axios.get 的邏輯，並將 response 的資料回傳
     return wrapper.instance().getAllGoods().then((resp) => {
-        // 從回傳結果中做斷言（第一個產品為 Milk）
-        expect(resp[0].name).toEqual('Milk')
+        // 下斷言驗證該 Mock 是否有被執行
+        expect(spyFn.mock.calls.length).toBe(1)
+        // 打印出真正 response 的資料
+        console.log(resp)
     })
 })
