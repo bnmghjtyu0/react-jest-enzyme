@@ -8,7 +8,8 @@ import { shallow, mount } from "enzyme";
 import { findByTestAttr, checkProps } from '../../../test/testUtils';
 import sinon from 'sinon';
 import Mock from '../Mock'
-
+import axios from 'axios'
+import fetch from '../https/axios'
 const defaultProps = {}
 
 const setup = (props = {}) => {
@@ -16,81 +17,68 @@ const setup = (props = {}) => {
     return shallow(<Mock {...setupProps} />)
 }
 
-describe('Test calulate the price', () => {
-    test('Test can return expect price', () => {
-        const wrapper = setup()
-        // 創建一個產品物件提供測試
-        const shoppingCart = [
-            { name: 'milk', price: 39, count: 2 },
-            { name: 'apple', price: 25, count: 3 },
-        ]
-        // 建立 Mock 取代 CheckDiscount
-        const mockCheckDiscount = jest.fn()
-        // 設定回傳值
-        mockCheckDiscount
-            .mockReturnValueOnce(true)
-            .mockReturnValue(false)
-        // 確認判斷折扣這件事確實執行了兩次
-
-        // 確認期望是否正確
-        expect(wrapper.instance().calculateThePrice(shoppingCart, mockCheckDiscount())).toBe(114)
-        expect(mockCheckDiscount.mock.calls.length).toBe(1)
-    })
-
+test('使用jest.spyOn()监控fetch.fetchPostsList被正常调用', async () => {
+    const wrapper = setup()
+    const spyFn = jest.spyOn(fetch, 'fetchPostsList');
+    await wrapper.instance().getAllGoods();
+    expect(spyFn).toHaveBeenCalled();
+    expect(spyFn).toHaveBeenCalledTimes(1);
 })
-
 ```
 ### Mock.js
 
 ```js
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-
+import axios from 'axios'
+import fetch from './https/axios'
 class Mock extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            counter: 0
+            datas: []
         }
 
     }
-
-    // 判斷該產品是否有折扣
-    checkDiscount = (name) => {
-        if (name === 'milk') {
-            return true
-        }
-        return false
+    componentDidMount() {
+        this.getAllGoods()
     }
 
-    // 計算購買產品的總額
-    calculateThePrice = (goods, checkDiscount) => {
-        let totalPrice = 0
-        goods.forEach((item) => {
-            // 先計算原價
-            let price = Number(item.price) * Number(item.count)
+    getAllGoods = async () => {
 
-            // 如果有折扣要半價
-            if (this.checkDiscount(item.name)) {
-                price *= 0.5
-            }
-
-            // 將價格加到總合上
-            totalPrice += price
-        })
-        return totalPrice
+        return fetch.fetchPostsList(data => {
+            this.setState({
+                datas:data
+            })
+            // do something
+        });
     }
 
     render() {
         // console.log(this.state.counter)
         return (
-            <div>
-            </div>
+            <pre>
+                {JSON.stringify(this.state.datas)}
+            </pre>
         )
     }
 }
 
 export default Mock
+```
+
+### https/axios.js
+
+```js
+import axios from 'axios';
+
+export default {
+    async fetchPostsList(callback) {
+        return axios.get('https://jsonplaceholder.typicode.com/posts').then(res => {
+            return callback(res.data);
+        })
+    }
+}
 ```
 
 ### 執行測試

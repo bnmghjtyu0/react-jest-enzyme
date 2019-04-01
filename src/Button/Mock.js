@@ -1,27 +1,35 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import axios from 'axios'
+import fetch from './https/axios'
 class Mock extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            counter: 0
+            datas: []
         }
 
     }
+    componentDidMount() {
+        this.getAllGoods()
+    }
 
-    getAllGoods = () => {
-        // 使用 axios 中的 get Function 獲得資料
-        return axios.get('http://httpbin.org/get').then((resp) => {
-            return resp.data
-        })
+    getAllGoods = async () => {
+
+        return fetch.fetchPostsList(data => {
+            this.setState({
+                datas:data
+            })
+            // do something
+        });
     }
 
     render() {
         // console.log(this.state.counter)
         return (
-            <div>
-            </div>
+            <pre>
+                {JSON.stringify(this.state.datas)}
+            </pre>
         )
     }
 }
