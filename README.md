@@ -1,6 +1,6 @@
 ## axios-mock-adapter
 
-### 1/2 unsplash.test.js
+### 1/3 unsplash.test.js
 
 ```js
 import React from 'react'
@@ -37,7 +37,7 @@ describe('', () => {
 
 ```
 
-### 2/2 unsplash.js
+### 2/3 unsplash.js
 ```js
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
@@ -74,6 +74,21 @@ class Unsplash extends Component {
 }
 
 export default Unsplash
+```
+
+### 3/3 http.js
+
+```js
+import axios from 'axios';
+
+export default {
+    async fetchPostsList(method, callback) {
+        return axios.get(method).then(res => {
+            console.log(res)
+            return callback(res);
+        })
+    }
+}
 ```
 
 ## 相關套件
