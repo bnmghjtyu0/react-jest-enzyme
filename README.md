@@ -1,5 +1,18 @@
 ## axios-mock-adapter
 
+### 大綱
+
+```js
+    var mock = new MockAdapter(axios)
+    mock.onGet('https://schoolparking.program.com.tw/backend/schooladd').reply(200, {
+      users: [{ id: 1, name: 'John Smith' }],
+    })
+    axios.get('https://schoolparking.program.com.tw/backend/schooladd').then(function(response) {
+      console.log(response.data)
+    })
+```
+
+
 ### 1/3 unsplash.test.js
 
 ```js
