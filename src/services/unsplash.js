@@ -1,23 +1,35 @@
-import axios from 'axios';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import axios from 'axios'
+import fetch from '../http'
+class Unsplash extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            datas: []
+        }
 
-function sendMessage(term) {
-    return new Promise((resolve, reject) => {
-        axios({
-            method: 'GET',
-            url: 'https://api.unsplash.com/search/photos',
-            params: {
-                query: term
-            }
-        }).then(({ status, data }) => {
-            if (status === 200) {
-                resolve(data);
-            } else {
-                reject(new Error('error'));
-            }
+    }
+    componentDidMount() {
+        this.getAllGoods()
+    }
+
+    getAllGoods = async () => {
+        return fetch.fetchPostsList('https://jsonplaceholder.typicode.com/posts', res => {
+            this.setState({
+                datas: res.data
+            })
         });
-    });
+    }
+
+    render() {
+        // console.log(this.state.counter)
+        return (
+            <pre>
+                {JSON.stringify(this.state.datas)}
+            </pre>
+        )
+    }
 }
 
-export default {
-    sendMessage
-};
+export default Unsplash

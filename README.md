@@ -3,57 +3,77 @@
 ### 1/2 unsplash.test.js
 
 ```js
+import React from 'react'
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter'
-import unsplash from '../unsplash';
+import { shallow, mount } from "enzyme";
+import { findByTestAttr, checkProps } from '../../../test/testUtils';
+import sinon from 'sinon';
+import Unsplash from '../unsplash';
 
-describe('unsplash', () => {
-    test('returns data when sendMessage is called', done => {
+const defaultProps = {}
 
+const setup = (props = {}) => {
+    const setupProps = { ...defaultProps, ...props }
+    return shallow(<Unsplash {...setupProps} />)
+}
+
+describe('', () => {
+    const mockData = [{ "title": 1 }]
+    const wrapper = setup()
+    beforeEach(async () => {
         // 使用 MockAdapter 可以建立假的 get api
         var mock = new MockAdapter(axios);
-        const data = { results: ["cat.jpg"] }
-        mock.onGet('https://api.unsplash.com/search/photos').reply(200, data);
+        mock.onGet('https://jsonplaceholder.typicode.com/posts').reply(200, mockData);
 
-        // axios.get 上面連結，回傳 data 的值
-        axios.get('https://api.unsplash.com/search/photos')
-            .then(res => {
-                console.log(res)
-            })
+        // 執行專案程式碼
+        await wrapper.instance().getAllGoods()
+    })
+    test('', () => {
+        expect(wrapper.instance().state.datas).toEqual(mockData);
 
-        unsplash.sendMessage('cats').then(response => {
-            expect(response).toEqual(data);
-            done();
-        });
-    });
-});
+    })
+})
+
 ```
 
 ### 2/2 unsplash.js
 ```js
-import axios from 'axios';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import axios from 'axios'
+import fetch from '../http'
+class Unsplash extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            datas: []
+        }
 
-function sendMessage(term) {
-    return new Promise((resolve, reject) => {
-        axios({
-            method: 'GET',
-            url: 'https://api.unsplash.com/search/photos',
-            params: {
-                query: term
-            }
-        }).then(({ status, data }) => {
-            if (status === 200) {
-                resolve(data);
-            } else {
-                reject(new Error('error'));
-            }
+    }
+    componentDidMount() {
+        this.getAllGoods()
+    }
+
+    getAllGoods = async () => {
+        return fetch.fetchPostsList('https://jsonplaceholder.typicode.com/posts', res => {
+            this.setState({
+                datas: res.data
+            })
         });
-    });
+    }
+
+    render() {
+        // console.log(this.state.counter)
+        return (
+            <pre>
+                {JSON.stringify(this.state.datas)}
+            </pre>
+        )
+    }
 }
 
-export default {
-    sendMessage
-};
+export default Unsplash
 ```
 
 ## 相關套件

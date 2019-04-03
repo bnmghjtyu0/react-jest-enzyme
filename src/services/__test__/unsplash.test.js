@@ -1,24 +1,31 @@
+import React from 'react'
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter'
-import unsplash from '../unsplash';
+import { shallow, mount } from "enzyme";
+import { findByTestAttr, checkProps } from '../../../test/testUtils';
+import sinon from 'sinon';
+import Unsplash from '../unsplash';
 
-describe('unsplash', () => {
-    test('returns data when sendMessage is called', done => {
+const defaultProps = {}
 
+const setup = (props = {}) => {
+    const setupProps = { ...defaultProps, ...props }
+    return shallow(<Unsplash {...setupProps} />)
+}
+
+describe('', () => {
+    const mockData = [{ "title": 1 }]
+    const wrapper = setup()
+    beforeEach(async () => {
         // 使用 MockAdapter 可以建立假的 get api
         var mock = new MockAdapter(axios);
-        const data = { results: ["cat.jpg"] }
-        mock.onGet('https://api.unsplash.com/search/photos').reply(200, data);
+        mock.onGet('https://jsonplaceholder.typicode.com/posts').reply(200, mockData);
 
-        // axios.get 上面連結，回傳 data 的值
-        axios.get('https://api.unsplash.com/search/photos')
-            .then(res => {
-                console.log(res)
-            })
+        // 執行專案程式碼
+        await wrapper.instance().getAllGoods()
+    })
+    test('', () => {
+        expect(wrapper.instance().state.datas).toEqual(mockData);
 
-        unsplash.sendMessage('cats').then(response => {
-            expect(response).toEqual(data);
-            done();
-        });
-    });
-});
+    })
+})
