@@ -2,12 +2,14 @@
 
 ### 大綱
 
+onGet 一個假的網址，axios.get(假網址) 取得 users: [{ id: 1, name: 'John Smith' }]
+
 ```js
     var mock = new MockAdapter(axios)
-    mock.onGet('https://schoolparking.program.com.tw/backend/schooladd').reply(200, {
+    mock.onGet('/user').reply(200, {
       users: [{ id: 1, name: 'John Smith' }],
     })
-    axios.get('https://schoolparking.program.com.tw/backend/schooladd').then(function(response) {
+    axios.get('/user').then(function(response) {
       console.log(response.data)
     })
 ```
