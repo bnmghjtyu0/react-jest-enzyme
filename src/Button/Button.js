@@ -5,25 +5,27 @@ class Button extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            counter: 0
+            toggle: false
         }
-
+        this.btnRef = React.createRef()
     }
 
-    increment = () => {
-        let { counter } = this.state
-        counter += 1
+    toggleColor = () => {
         this.setState({
-            counter
+            toggle: !this.state.toggle
         })
+        if (this.state.toggle) {
+            this.btnRef.current.style.background = 'red'
+        }
+        if (!this.state.toggle) {
+            this.btnRef.current.style.background = 'blue'
+        }
     }
     render() {
         // console.log(this.state.counter)
         return (
             <div>
-
-                <button data-test="increment-button" onClick={this.increment}>Increment</button>
-
+                <button ref={this.btnRef} data-test="increment-button" onClick={this.toggleColor}>Increment</button>
             </div>
         )
     }
