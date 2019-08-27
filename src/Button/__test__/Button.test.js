@@ -8,22 +8,19 @@ const defaultProps = {}
 
 const setup = (props = {}) => {
     const setupProps = { ...defaultProps, ...props }
-    return shallow(<Button {...setupProps} />)
+    return mount(<Button {...setupProps} />)
 }
-describe('increment function', () => {
-    test('increment-button', () => {
-        const wrapper = setup()
-        const increment = jest.fn()
-        // console.log(wrapper.props())
-        // console.log(wrapper.state())
-        // console.log(wrapper.instance().props)
-        // >>  {name:'app'}
-
-        const incrementButton  = findByTestAttr(wrapper,'increment-button')
-        incrementButton.simulate('click')
-         wrapper.setState({ counter: 1 })
-        console.log(wrapper.state())
-        expect(wrapper.state().counter).toBe(1)
+describe('Button', () => {
+    test('ref', () => {
+        const iniitalState = {
+            toggle: false
+        }
+        const wrapper = setup({ ...iniitalState })
+        const btn = findByTestAttr(wrapper, 'increment-button')
+        btn.simulate('click', 1)
+        expect(wrapper.state().toggle).toBeTruthy()
+        btn.simulate('click', 1)
+        expect(wrapper.state().toggle).toBeFalsy()
     })
 
 })
