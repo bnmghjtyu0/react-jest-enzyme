@@ -1,32 +1,37 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-
+import { withRouter } from 'react-router-dom'
+import Block from './Block'
 class Button extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            counter: 0
+            name: 'apple'
         }
 
     }
-
-    increment = () => {
-        let { counter } = this.state
-        counter += 1
-        this.setState({
-            counter
-        })
+    componentDidMount() {
+        const params = new URLSearchParams(this.props.location.search)
+        if (!params.has('day')) {
+            this.props.history.push({
+                pathname: '/',
+                search: '?day=123'
+            })
+            this.setState({
+                name: 'banana'
+            })
+        }
     }
+
     render() {
-        // console.log(this.state.counter)
+        // const params = new URLSearchParams(this.props.location.search)
+        // console.log('day: ' + params.get('day'))
         return (
             <div>
-
-                <button data-test="increment-button" onClick={this.increment}>Increment</button>
-
+                <Block name={this.state.name} />
             </div>
         )
     }
 }
 
-export default Button
+export default withRouter(Button)
